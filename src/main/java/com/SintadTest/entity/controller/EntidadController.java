@@ -3,9 +3,7 @@ package com.SintadTest.entity.controller;
 import com.SintadTest.entity.models.request.EntidadRequest;
 import com.SintadTest.entity.models.response.EntidadResponse;
 import com.SintadTest.shared.interfaces.CrudInterface;
-import com.SintadTest.shared.interfaces.NumberGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,10 +15,6 @@ public class EntidadController {
 
     @Autowired
     private CrudInterface<EntidadRequest, EntidadResponse> crudInterface;
-
-    @Autowired
-    @Qualifier("entidadServiceImpl")
-    private NumberGeneratorService numberGeneratorService;
 
     @GetMapping("/all-entities")
     public ResponseEntity<Object> findAll() {
@@ -48,11 +42,6 @@ public class EntidadController {
     @DeleteMapping("/delete-entity/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         return new ResponseEntity<>(crudInterface.delete(id),HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("/next-number")
-    public ResponseEntity<String> getNextSaleNumber() {
-        return new ResponseEntity<>(numberGeneratorService.getNextNumber(),HttpStatus.OK);
     }
 
 }

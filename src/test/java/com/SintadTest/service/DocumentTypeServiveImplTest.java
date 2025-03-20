@@ -11,8 +11,6 @@ import com.SintadTest.exceptions.BadRequestException;
 import com.SintadTest.exceptions.NotFoundException;
 import com.SintadTest.shared.constants.ExceptionMessages;
 import com.SintadTest.shared.interfaces.MapperConverter;
-import com.SintadTest.taxpayerType.models.entity.TaxpayerType;
-import com.SintadTest.taxpayerType.models.response.TaxpayerTypeResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,7 +35,6 @@ public class DocumentTypeServiveImplTest {
 
     @Mock
     private MapperConverter<DocumentTypeRequest, DocumentTypeResponse, DocumentType> mapperConverter;
-
 
     @Test
     void createDocumentSuccess() {
@@ -239,19 +236,6 @@ public class DocumentTypeServiveImplTest {
 
         assertEquals(ExceptionMessages.DOCUMENTS_TYPES_WITH_STATUS_TRUE_NOT_FOUND, exception.getMessage());
         verify(documentTypeRepository, times(1)).findAllByStateTrue();
-    }
-
-
-    @Test
-    void getNextNumber_ShouldReturnGeneratedNumber() {
-        when(documentTypeRepository.findLastNumDocument()).thenReturn(Optional.of("0002-25"));
-
-        String nextNumber = documentTypeService.getNextNumber();
-
-        assertNotNull(nextNumber);
-        assertEquals("0003-25", nextNumber);
-
-        verify(documentTypeRepository, times(1)).findLastNumDocument();
     }
 }
 

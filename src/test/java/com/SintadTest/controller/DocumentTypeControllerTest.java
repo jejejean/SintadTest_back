@@ -8,14 +8,10 @@ import com.SintadTest.documentType.models.request.DocumentTypeRequest;
 import com.SintadTest.documentType.models.response.DocumentTypeInfoResponse;
 import com.SintadTest.documentType.models.response.DocumentTypeResponse;
 import com.SintadTest.shared.interfaces.CrudInterface;
-import com.SintadTest.shared.interfaces.NumberGeneratorService;
-import com.SintadTest.taxpayerType.models.request.TaxpayerTypeRequest;
-import com.SintadTest.taxpayerType.models.response.TaxpayerTypeResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -48,9 +44,6 @@ public class DocumentTypeControllerTest {
     @MockBean
     private DocumentTypeInterface documentTypeInterface;
 
-    @MockBean
-    @Qualifier("documentTypeServiceImpl")
-    private NumberGeneratorService numberGeneratorService;
 
     @Test
     @WithMockUser(authorities = "ADMINISTRADOR")
@@ -163,17 +156,4 @@ public class DocumentTypeControllerTest {
         verify(documentTypeInterface, times(1)).findAllByStateTrue();
     }
 
-    @Test
-    @WithMockUser(authorities = "ADMINISTRADOR")
-    void testGetNextSaleNumber() throws Exception {
-        String expectedNumber = "0003-25";
-        when(numberGeneratorService.getNextNumber()).thenReturn(expectedNumber);
-
-        mockMvc.perform(get("/api/v1/document-type/next-number")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()) // HTTP 200 OK
-                .andExpect(content().string(expectedNumber));
-
-        verify(numberGeneratorService, times(1)).getNextNumber();
-    }
 }

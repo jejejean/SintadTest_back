@@ -10,10 +10,7 @@ import com.SintadTest.exceptions.BadRequestException;
 import com.SintadTest.exceptions.NotFoundException;
 import com.SintadTest.shared.constants.ExceptionMessages;
 import com.SintadTest.shared.interfaces.CrudInterface;
-import com.SintadTest.shared.interfaces.LastNumberProvider;
 import com.SintadTest.shared.interfaces.MapperConverter;
-import com.SintadTest.shared.interfaces.NumberGeneratorService;
-import com.SintadTest.shared.utils.GenerateNummber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DocumentTypeServiceImpl implements CrudInterface<DocumentTypeRequest, DocumentTypeResponse>, DocumentTypeInterface, NumberGeneratorService {
+public class DocumentTypeServiceImpl implements CrudInterface<DocumentTypeRequest, DocumentTypeResponse>, DocumentTypeInterface {
 
     @Autowired
     private DocumentTypeRepository documentTypeRepository;
@@ -90,9 +87,4 @@ public class DocumentTypeServiceImpl implements CrudInterface<DocumentTypeReques
         return documentTypes;
     }
 
-    @Override
-    public String getNextNumber() {
-        LastNumberProvider lastNumberProvider = documentTypeRepository::findLastNumDocument;
-        return GenerateNummber.generateNextNumber(lastNumberProvider);
-    }
 }

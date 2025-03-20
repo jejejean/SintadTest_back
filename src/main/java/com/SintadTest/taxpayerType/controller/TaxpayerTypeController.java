@@ -31,19 +31,19 @@ public class TaxpayerTypeController {
         return new ResponseEntity<>(crudInterface.findById(id), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('' + @rolesConfig.getAdminRole())")
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
     @PostMapping("/new-taxpayer-type")
     public ResponseEntity<Object> create(@Valid @RequestBody TaxpayerTypeRequest taxpayerTypeRequest) {
         return new ResponseEntity<>(crudInterface.create(taxpayerTypeRequest), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('' + @rolesConfig.getAdminRole())")
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
     @PutMapping("/update-taxpayer-type/{id}")
     public ResponseEntity<Object> update(@PathVariable Long id, @Valid @RequestBody TaxpayerTypeRequest taxpayerTypeRequest) {
         return new ResponseEntity<>(crudInterface.update(id, taxpayerTypeRequest), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('' + @rolesConfig.getAdminRole())")
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
     @DeleteMapping("/delete-taxpayer-type/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         return new ResponseEntity<>(crudInterface.delete(id), HttpStatus.NO_CONTENT);

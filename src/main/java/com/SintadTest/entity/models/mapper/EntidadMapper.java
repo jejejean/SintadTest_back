@@ -6,6 +6,7 @@ import com.SintadTest.entity.models.entity.Entidad;
 import com.SintadTest.entity.models.request.EntidadRequest;
 import com.SintadTest.entity.models.response.EntidadResponse;
 import com.SintadTest.taxpayerType.models.entity.TaxpayerType;
+import com.SintadTest.taxpayerType.models.mapper.TaxpayerTypeMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,8 @@ public class EntidadMapper implements EntidadMapperConverter {
 
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private TaxpayerTypeMapper taxpayerTypeMapper;
 
     @Override
     public Entidad mapDtoToEntity(EntidadRequest request, DocumentType documentType, TaxpayerType taxpayerType) {
@@ -22,12 +25,19 @@ public class EntidadMapper implements EntidadMapperConverter {
         entidad.setIdEntity(null);
         entidad.setDocumentType(documentType);
         entidad.setTaxpayerType(taxpayerType);
+
         return entidad;
     }
 
     @Override
     public EntidadResponse mapEntityToDto(Entidad entidad) {
         EntidadResponse entidadResponse = modelMapper.map(entidad, EntidadResponse.class);
+
+        if (entidad.getTaxpayerType() != null) {
+            entidadResponse.setTaxpayerType(taxpayerTypeMapper.mapEntityToDto(entidad.getTaxpayerType()));
+        } else {
+            entidadResponse.setTaxpayerType(null);
+        }
         return entidadResponse;
     }
 
